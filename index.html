@@ -1,154 +1,148 @@
 <!doctype html>
 <html lang="pt-BR">
- <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260630-05-8900874"}');</script><script src="/_sdk/e4192b04afde3ce7.telemetry_sdk.js" integrity="sha512-4eZpyKBd3YJnsIPrIpaBqo7QT5UZ6+KSFXkSu1IQiB7jKM8y67ChRhZ5Yh6JfuOJCbPdISiNcS6nLKZzIMG1uQ=="></script>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jardim da Abelha Mel</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
-  <script src="/_sdk/48bf7c4c70d0d03c.data_sdk.js" integrity="sha512-e/yrQJz+prdXXt4yUvxXhl1WBGu3BRkP8X0fipGXI5gqiFClI7wI6K3TQnD7d63vx+BVhwzIvY6r8OrpX7lXJA=="></script>
   <link rel="stylesheet" href="./style.css">
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <script src="/_sdk/5d8c692e132d2125.resizing_sdk.js" type="text/javascript" integrity="sha512-/Du3Fqe12kKsCd3BrbaNQEPtMxQi9S5hbJhnTf09AAilpqYsGa4N0rnimSX1Ui4dwNElKlen6VlI+E1n/NEfrA=="></script>
  </head>
- <body data-template-id="__page-root" class="vh-full w-full overflow-x-hidden"><!-- TITLE SCREEN -->
+ <body data-template-id="__page-root" class="vh-full w-full overflow-x-hidden">
+  <!-- TITLE SCREEN -->
   <div id="screen-title" class="w-full min-h-screen flex flex-col items-center justify-center p-6 gap-5 relative overflow-hidden">
-   <div class="absolute top-8 left-6 text-5xl animate-bounce">
-    🌸
+   <div class="absolute top-8 left-6 text-5xl animate-bounce">🌸</div>
+   <div class="absolute top-12 right-8 text-4xl" style="animation:float 3s ease-in-out infinite">🌼</div>
+   <div class="absolute bottom-16 left-4 text-5xl" style="animation:float 3s ease-in-out infinite;animation-delay:.5s">🌺</div>
+   <div class="absolute bottom-20 right-6 text-4xl animate-bounce" style="animation-delay:.3s">🌻</div>
+   <div class="absolute top-1/3 right-3 text-3xl" style="animation:float 3s ease-in-out infinite;animation-delay:1s">🦋</div>
+   <div class="absolute top-1/4 left-2 text-4xl" style="animation:float 3s ease-in-out infinite;animation-delay:1.5s">🐞</div>
+   <img data-template-id="title-bee-image" class="canva-image w-40 h-32 object-contain relative z-10" loading="lazy">
+   <h1 data-template-id="game-title" class="canva-text text-center leading-tight max-w-sm relative z-10">Jardim da Abelha Mel</h1>
+   <p data-template-id="game-subtitle" class="canva-text text-center relative z-10">Ajude a Mel a explorar o jardim resolvendo desafios de matemática!</p>
+   <div class="w-full max-w-xs relative z-10">
+    <label data-template-id="name-label" class="canva-text block text-sm font-bold mb-1" for="player-name-input">Qual é o seu nome?</label>
+    <input id="player-name-input" type="text" data-template-id="name-input" class="canva-input w-full px-4 py-3 rounded-xl border-2 border-green-300 text-center text-lg font-bold focus:outline-none focus:border-green-500">
    </div>
-   <div class="absolute top-12 right-8 text-4xl" style="animation:float 3s ease-in-out infinite">
-    🌼
-   </div>
-   <div class="absolute bottom-16 left-4 text-5xl" style="animation:float 3s ease-in-out infinite;animation-delay:.5s">
-    🌺
-   </div>
-   <div class="absolute bottom-20 right-6 text-4xl animate-bounce" style="animation-delay:.3s">
-    🌻
-   </div>
-   <div class="absolute top-1/3 right-3 text-3xl" style="animation:float 3s ease-in-out infinite;animation-delay:1s">
-    🦋
-   </div>
-   <div class="absolute top-1/4 left-2 text-4xl" style="animation:float 3s ease-in-out infinite;animation-delay:1.5s">
-    🐞
-   </div><img data-template-id="title-bee-image" class="canva-image w-40 h-32 object-contain relative z-10" loading="lazy">
-   <h1 data-template-id="game-title" class="canva-text text-center leading-tight max-w-sm relative z-10"></h1>
-   <p data-template-id="game-subtitle" class="canva-text text-center relative z-10"></p>
-   <div class="w-full max-w-xs relative z-10"><label data-template-id="name-label" class="canva-text block text-sm font-bold mb-1" for="player-name-input"></label> <input id="player-name-input" type="text" data-template-id="name-input" class="canva-input w-full px-4 py-3 rounded-xl border-2 border-green-300 text-center text-lg font-bold focus:outline-none focus:border-green-500">
-   </div><button data-template-id="btn-start" class="canva-button phase-btn py-3 px-10 rounded-xl text-xl font-bold shadow-lg relative z-10" id="btn-start-el"></button>
-  </div><!-- NARRATION SCREEN -->
+   <button data-template-id="btn-start" class="canva-button phase-btn py-3 px-10 rounded-xl text-xl font-bold shadow-lg relative z-10" id="btn-start-el">Começar 🐝</button>
+  </div>
+
+  <!-- NARRATION SCREEN -->
   <div id="screen-narration" class="w-full min-h-screen flex flex-col items-center justify-center p-6 gap-6 hidden">
-   <h2 data-template-id="narration-title" class="canva-text text-xl font-bold text-center max-w-md"></h2>
-   <div class="flex flex-col items-center gap-4 max-w-md"><img data-template-id="narration-bee-image" class="canva-image w-48 h-48 object-contain" loading="lazy">
+   <h2 data-template-id="narration-title" class="canva-text text-xl font-bold text-center max-w-md">Bem-vindo ao jardim!</h2>
+   <div class="flex flex-col items-center gap-4 max-w-md">
+    <img data-template-id="narration-bee-image" class="canva-image w-48 h-48 object-contain" loading="lazy">
     <div class="bg-white rounded-3xl p-6 shadow-lg border-4 border-yellow-300 relative">
-     <div class="absolute -top-4 left-8 text-4xl">
-      💭
-     </div>
-     <p data-template-id="narration-text" class="canva-text text-center text-lg leading-relaxed"></p>
+     <div class="absolute -top-4 left-8 text-4xl">💭</div>
+     <p data-template-id="narration-text" class="canva-text text-center text-lg leading-relaxed">Oi! Eu sou a Mel! Preciso da sua ajuda para completar 6 missões pelo jardim. Vamos lá?</p>
     </div>
-   </div><button data-template-id="btn-narration-continue" id="btn-narration-continue-el" class="canva-button phase-btn py-3 px-10 rounded-xl text-xl font-bold shadow-lg"></button>
-  </div><!-- MAP SCREEN -->
+   </div>
+   <button data-template-id="btn-narration-continue" id="btn-narration-continue-el" class="canva-button phase-btn py-3 px-10 rounded-xl text-xl font-bold shadow-lg">Vamos! ➡️</button>
+  </div>
+
+  <!-- MAP SCREEN -->
   <div id="screen-map" class="w-full min-h-screen flex flex-col items-center p-4 gap-4 hidden">
    <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-2xl gap-3">
-    <h1 data-template-id="map-title" class="canva-text text-xl sm:text-2xl font-extrabold"></h1><button class="px-3 py-2 bg-amber-100 rounded-xl font-bold text-sm border-2 border-amber-300 shadow" id="btn-notebook">📓 Caderno da Mel</button>
+    <h1 data-template-id="map-title" class="canva-text text-xl sm:text-2xl font-extrabold">Mapa do Jardim</h1>
+    <button class="px-3 py-2 bg-amber-100 rounded-xl font-bold text-sm border-2 border-amber-300 shadow" id="btn-notebook">📓 Caderno da Mel</button>
    </div>
    <p id="player-greeting" class="text-sm font-bold text-green-800"></p>
-   <div class="text-4xl bee-bounce">
-    🐝
-   </div>
+   <div class="text-4xl bee-bounce">🐝</div>
    <div id="phase-map" class="map-path flex flex-col items-center gap-4 sm:gap-6 w-full max-w-2xl mt-2 pb-8"></div>
-  </div><!-- NOTEBOOK SCREEN -->
+  </div>
+
+  <!-- NOTEBOOK SCREEN -->
   <div id="screen-notebook" class="w-full min-h-screen flex flex-col items-center p-4 gap-4 hidden">
-   <div class="flex items-center gap-2 w-full max-w-md"><button class="text-2xl" id="btn-nb-back">⬅️</button>
-    <h2 data-template-id="notebook-title" class="canva-text text-xl font-bold flex-1 text-center"></h2>
+   <div class="flex items-center gap-2 w-full max-w-md">
+    <button class="text-2xl" id="btn-nb-back">⬅️</button>
+    <h2 data-template-id="notebook-title" class="canva-text text-xl font-bold flex-1 text-center">Caderno da Mel</h2>
    </div>
-   <p data-template-id="notebook-desc" class="canva-text text-center text-sm max-w-xs"></p>
+   <p data-template-id="notebook-desc" class="canva-text text-center text-sm max-w-xs">Complete as missões para colecionar todos os adesivos!</p>
    <div id="notebook-grid" class="grid grid-cols-3 gap-4 w-full max-w-sm mt-4"></div>
-  </div><!-- STICKER REWARD SCREEN (new) -->
+  </div>
+
+  <!-- STICKER REWARD SCREEN -->
   <div id="screen-sticker-reward" class="w-full min-h-screen flex flex-col items-center justify-center p-6 gap-4 hidden">
-   <div class="relative w-full max-w-sm"><!-- Notebook page -->
+   <div class="relative w-full max-w-sm">
     <div id="sticker-page" class="bg-white rounded-3xl p-8 shadow-2xl border-4 border-amber-300 flex flex-col items-center gap-4 relative overflow-hidden">
      <div class="absolute top-2 right-3 text-xs font-bold text-amber-600" id="sticker-progress"></div>
      <p class="text-sm font-bold text-amber-700">📓 Caderno da Mel</p>
-     <div class="w-24 h-24 rounded-2xl border-4 border-dashed border-green-300 bg-green-50 flex items-center justify-center relative" id="sticker-slot"><span id="sticker-emoji" class="text-5xl sticker-glue" style="display:none"></span>
-      <div class="sparkle text-yellow-400 text-lg" style="top:-8px;left:-8px;animation-delay:0s">
-       ✨
-      </div>
-      <div class="sparkle text-yellow-400 text-lg" style="top:-8px;right:-8px;animation-delay:.2s">
-       ✨
-      </div>
-      <div class="sparkle text-yellow-400 text-lg" style="bottom:-8px;left:50%;animation-delay:.4s">
-       ✨
-      </div>
+     <div class="w-24 h-24 rounded-2xl border-4 border-dashed border-green-300 bg-green-50 flex items-center justify-center relative" id="sticker-slot">
+      <span id="sticker-emoji" class="text-5xl sticker-glue" style="display:none"></span>
+      <div class="sparkle text-yellow-400 text-lg" style="top:-8px;left:-8px;animation-delay:0s">✨</div>
+      <div class="sparkle text-yellow-400 text-lg" style="top:-8px;right:-8px;animation-delay:.2s">✨</div>
+      <div class="sparkle text-yellow-400 text-lg" style="bottom:-8px;left:50%;animation-delay:.4s">✨</div>
      </div>
      <p id="sticker-phase-name" class="font-bold text-green-800 text-center"></p>
     </div>
-   </div><!-- Mel's comment -->
-   <div class="flex items-start gap-3 max-w-sm"><span class="text-4xl">🐝</span>
+   </div>
+   <div class="flex items-start gap-3 max-w-sm">
+    <span class="text-4xl">🐝</span>
     <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-4 shadow">
      <p id="mel-comment" class="text-sm font-bold text-yellow-900 leading-relaxed"></p>
     </div>
-   </div><button class="phase-btn py-3 px-8 rounded-xl text-lg font-bold shadow-lg bg-green-400 text-white" id="btn-sticker-continue">Continuar ➡️</button>
-  </div><!-- GAME SCREEN -->
+   </div>
+   <button class="phase-btn py-3 px-8 rounded-xl text-lg font-bold shadow-lg bg-green-400 text-white" id="btn-sticker-continue">Continuar ➡️</button>
+  </div>
+
+  <!-- GAME SCREEN -->
   <div id="screen-game" class="w-full min-h-screen flex flex-col items-center p-4 gap-3 hidden relative">
-   <div class="flex items-center gap-2 w-full max-w-md"><button class="text-2xl" id="btn-game-back">⬅️</button>
-    <h2 id="game-phase-title" class="text-xl font-bold flex-1 text-center">Desafio</h2><span id="game-variation" class="text-sm font-bold bg-green-100 px-2 py-1 rounded-lg"></span>
-   </div><button id="btn-hint" class="absolute top-20 right-4 px-3 py-2 bg-yellow-100 rounded-xl font-bold text-sm border-2 border-yellow-300 shadow hover:bg-yellow-200 transition-colors z-40">💡 Dica</button>
+   <div class="flex items-center gap-2 w-full max-w-md">
+    <button class="text-2xl" id="btn-game-back">⬅️</button>
+    <h2 id="game-phase-title" class="text-xl font-bold flex-1 text-center">Desafio</h2>
+    <span id="game-variation" class="text-sm font-bold bg-green-100 px-2 py-1 rounded-lg"></span>
+   </div>
+   <button id="btn-hint" class="absolute top-20 right-4 px-3 py-2 bg-yellow-100 rounded-xl font-bold text-sm border-2 border-yellow-300 shadow hover:bg-yellow-200 transition-colors z-40">💡 Dica</button>
    <div id="game-content" class="w-full max-w-md flex-1 flex flex-col items-center justify-center gap-4"></div>
    <div id="game-feedback" class="min-h-[60px] flex items-center justify-center"></div>
-  </div><!-- HINT MODAL -->
+  </div>
+
+  <!-- HINT MODAL -->
   <div id="hint-modal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50 p-4">
    <div class="bg-white rounded-3xl shadow-2xl p-6 max-w-sm border-4 border-yellow-300 flex flex-col gap-4">
     <div class="flex items-start gap-2">
      <span class="text-3xl">💡</span>
      <p id="hint-text" class="text-lg font-semibold text-yellow-900 leading-relaxed"></p>
-    </div><button id="btn-close-hint" class="px-4 py-2 bg-green-400 text-white font-bold rounded-xl shadow-md hover:bg-green-500 transition-colors self-center">Entendi! 🌻</button>
-   </div>
-  </div><!-- SUCCESS SCREEN -->
-  <div id="screen-success" class="w-full min-h-screen flex flex-col items-center justify-center p-4 gap-4 hidden">
-   <div class="text-6xl sticker-pop">
-    🏆
-   </div>
-   <h2 data-template-id="success-title" class="canva-text text-2xl font-bold text-center"></h2>
-   <p data-template-id="success-text" class="canva-text text-center text-lg"></p>
-   <div class="text-5xl sticker-pop" id="new-sticker"></div><button data-template-id="btn-continue" class="canva-button phase-btn py-3 px-8 rounded-xl text-xl font-bold shadow-lg" id="btn-continue-el"></button>
-  </div><!-- ALL DONE SCREEN -->
-  <div id="screen-done" class="w-full min-h-screen flex flex-col items-center justify-center p-4 gap-5 hidden relative overflow-hidden"><!-- Flying Mel -->
-   <div class="absolute top-10 left-1/2 -translate-x-1/2 text-5xl fly-mel z-0">
-    🐝
-   </div><!-- Celebration creatures -->
-   <div class="absolute bottom-10 left-8 text-3xl" style="animation:float 2s ease-in-out infinite">
-    🌸
-   </div>
-   <div class="absolute bottom-16 right-10 text-3xl" style="animation:float 2s ease-in-out infinite;animation-delay:.5s">
-    🦋
-   </div>
-   <div class="absolute bottom-8 left-1/3 text-2xl" style="animation:float 2.5s ease-in-out infinite;animation-delay:1s">
-    🐞
-   </div>
-   <div class="absolute bottom-14 right-1/3 text-2xl" style="animation:float 2s ease-in-out infinite;animation-delay:.3s">
-    🌼
-   </div>
-   <div class="relative z-10 flex flex-col items-center gap-4">
-    <div class="text-6xl sticker-pop">
-     🎉
     </div>
-    <h2 data-template-id="done-title" class="canva-text text-2xl font-bold text-center"></h2>
-    <p data-template-id="done-text" class="canva-text text-center text-lg max-w-md"></p><!-- Mel's final speech -->
-    <div class="flex items-start gap-3 max-w-md"><span class="text-4xl">🐝</span>
-     <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-4 shadow">
-      <p data-template-id="done-mel-speech" class="canva-text text-sm font-bold text-yellow-900 leading-relaxed"></p>
-     </div>
-    </div>
-    <div id="final-notebook-grid" class="flip-book grid grid-cols-3 sm:grid-cols-6 gap-4 sm:gap-6 w-full max-w-4xl mt-4 p-6 bg-white rounded-2xl shadow-lg border-4 border-amber-200"></div><!-- Medal -->
-    <div class="flex flex-col items-center gap-2 mt-4">
-     <div class="text-6xl sticker-pop">
-      🏅
-     </div>
-     <p data-template-id="medal-title" class="canva-text text-lg font-bold text-center"></p>
-    </div><button data-template-id="btn-replay" class="canva-button phase-btn py-3 px-8 rounded-xl text-xl font-bold shadow-lg" id="btn-replay-el"></button>
+    <button id="btn-close-hint" class="px-4 py-2 bg-green-400 text-white font-bold rounded-xl shadow-md hover:bg-green-500 transition-colors self-center">Entendi! 🌻</button>
    </div>
   </div>
-  <script src="/_sdk/c94a279e896d0a23.editing_sdk.js" integrity="sha512-uhzUP50YzTVKO+Zk7rEhhvjMMNFy592eHXVEXciJzhLpIQxrlwzWv/DQvyYWQ+AKpYwxxCvjgWkVa5LTga2NWg=="></script>
-  <script src="./script.js">
-</script>
+
+  <!-- SUCCESS SCREEN -->
+  <div id="screen-success" class="w-full min-h-screen flex flex-col items-center justify-center p-4 gap-4 hidden">
+   <div class="text-6xl sticker-pop">🏆</div>
+   <h2 data-template-id="success-title" class="canva-text text-2xl font-bold text-center">Muito bem!</h2>
+   <p data-template-id="success-text" class="canva-text text-center text-lg">Você completou o desafio!</p>
+   <div class="text-5xl sticker-pop" id="new-sticker"></div>
+   <button data-template-id="btn-continue" class="canva-button phase-btn py-3 px-8 rounded-xl text-xl font-bold shadow-lg" id="btn-continue-el">Continuar</button>
+  </div>
+
+  <!-- ALL DONE SCREEN -->
+  <div id="screen-done" class="w-full min-h-screen flex flex-col items-center justify-center p-4 gap-5 hidden relative overflow-hidden">
+   <div class="absolute top-10 left-1/2 -translate-x-1/2 text-5xl fly-mel z-0">🐝</div>
+   <div class="absolute bottom-10 left-8 text-3xl" style="animation:float 2s ease-in-out infinite">🌸</div>
+   <div class="absolute bottom-16 right-10 text-3xl" style="animation:float 2s ease-in-out infinite;animation-delay:.5s">🦋</div>
+   <div class="absolute bottom-8 left-1/3 text-2xl" style="animation:float 2.5s ease-in-out infinite;animation-delay:1s">🐞</div>
+   <div class="absolute bottom-14 right-1/3 text-2xl" style="animation:float 2s ease-in-out infinite;animation-delay:.3s">🌼</div>
+   <div class="relative z-10 flex flex-col items-center gap-4">
+    <div class="text-6xl sticker-pop">🎉</div>
+    <h2 data-template-id="done-title" class="canva-text text-2xl font-bold text-center">Parabéns!</h2>
+    <p data-template-id="done-text" class="canva-text text-center text-lg max-w-md">Você completou todas as missões do jardim!</p>
+    <div class="flex items-start gap-3 max-w-md">
+     <span class="text-4xl">🐝</span>
+     <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-4 shadow">
+      <p data-template-id="done-mel-speech" class="canva-text text-sm font-bold text-yellow-900 leading-relaxed">Muito obrigada pela sua ajuda! Você é incrível!</p>
+     </div>
+    </div>
+    <div id="final-notebook-grid" class="flip-book grid grid-cols-3 sm:grid-cols-6 gap-4 sm:gap-6 w-full max-w-4xl mt-4 p-6 bg-white rounded-2xl shadow-lg border-4 border-amber-200"></div>
+    <div class="flex flex-col items-center gap-2 mt-4">
+     <div class="text-6xl sticker-pop">🏅</div>
+     <p data-template-id="medal-title" class="canva-text text-lg font-bold text-center">Missão Concluída!</p>
+    </div>
+    <button data-template-id="btn-replay" class="canva-button phase-btn py-3 px-8 rounded-xl text-xl font-bold shadow-lg" id="btn-replay-el">Jogar novamente 🔄</button>
+   </div>
+  </div>
+
+  <script src="./script.js"></script>
+ </body>
 </html>
