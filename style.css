@@ -1,0 +1,38 @@
+  *{font-family:'DM Sans',sans-serif}
+    .vh-full{min-height:calc(100 * min(var(--vh,1vh),1vh))}
+    .bee-bounce{animation:bounce 1s infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .sticker-pop{animation:pop .5s ease}
+    @keyframes pop{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+    .fade-out{animation:fadeOut .4s forwards}
+    @keyframes fadeOut{to{opacity:0;transform:scale(.5)}}
+    .phase-btn{transition:transform .2s}.phase-btn:active{transform:scale(.95)}
+    .grid-cell{width:64px;height:64px;border:2px solid #a7d8a0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px;background:#f0fdf4}
+    .arrow-btn{width:72px;height:72px;border-radius:50%;font-size:36px;border:3px solid #16a34a;background:#dcfce7;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .1s}.arrow-btn:active{transform:scale(.9)}
+    .mushroom-item{font-size:56px;cursor:pointer;transition:transform .2s;display:inline-block}.mushroom-item:active{transform:scale(.8)}
+    .link-group{border-radius:16px;padding:16px 20px;min-width:120px;cursor:pointer;transition:transform .15s}.link-group:active{transform:scale(.95)}.link-group.selected{box-shadow:0 0 0 4px #f59e0b}.link-group.matched{opacity:.5;pointer-events:none}
+    .link-num{width:72px;height:72px;border-radius:16px;font-size:32px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s}.link-num:active{transform:scale(.9)}.link-num.matched{opacity:.5;pointer-events:none}
+    .map-path{position:relative}
+    .map-path::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:4px;border-left:4px dashed #86efac;transform:translateX(-50%);z-index:0}
+    .map-node{position:relative;z-index:1;width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:40px;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+    .map-node:active{transform:scale(.92)}
+    .map-node.locked{cursor:default;opacity:.4;filter:grayscale(1)}
+    .challenge-dot{width:14px;height:14px;border-radius:50%;border:2px solid #fff}
+    .feedback-msg{padding:12px 24px;border-radius:16px;font-size:1.2rem;font-weight:700;text-align:center;margin-top:12px}
+    .notebook-sticker{width:70px;height:70px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:36px;border:3px dashed #d1d5db;background:#f9fafb;transition:all .3s}
+    .notebook-sticker.earned{border-style:solid;border-color:#10b981;background:#ecfdf5}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    .float-anim{animation:float 3s ease-in-out infinite}
+    .confetti{position:fixed;pointer-events:none;z-index:9999;animation:fall linear forwards}
+    @keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+    @keyframes pageTurn{0%{transform:perspective(800px) rotateY(0deg)}50%{transform:perspective(800px) rotateY(-90deg)}100%{transform:perspective(800px) rotateY(0deg)}}
+    .page-turn{animation:pageTurn 1s ease-in-out}
+    @keyframes glue{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.4) rotate(5deg);opacity:1}80%{transform:scale(.9) rotate(-2deg)}100%{transform:scale(1) rotate(0deg)}}
+    .sticker-glue{animation:glue .8s ease .3s both}
+    @keyframes sparkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
+    .sparkle{position:absolute;animation:sparkle .6s ease infinite}
+    @keyframes flyMel{0%{transform:translate(0,0)}25%{transform:translate(60px,-30px)}50%{transform:translate(-40px,-50px)}75%{transform:translate(30px,-20px)}100%{transform:translate(0,0)}}
+    .fly-mel{animation:flyMel 4s ease-in-out infinite}
+    @keyframes flipBook{0%{transform:rotateY(0)}10%{transform:rotateY(-15deg)}20%{transform:rotateY(0)}30%{transform:rotateY(-15deg)}40%{transform:rotateY(0)}50%{transform:rotateY(-15deg)}60%{transform:rotateY(0)}70%{transform:rotateY(-15deg)}80%{transform:rotateY(0)}90%{transform:rotateY(-15deg)}100%{transform:rotateY(0)}}
+    .flip-book{animation:flipBook 3s ease-in-out}
+  
