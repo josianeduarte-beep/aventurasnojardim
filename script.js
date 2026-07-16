@@ -1,9 +1,41 @@
-function() {
+(function() {
   let completedChallenges = [];
   let currentPhaseIdx = 0;
   let currentVariation = 0;
   let playerName = '';
   let sdkReady = false;
+
+  // ===== FIX: fallback local para window.dataSdk =====
+  // Fora da plataforma original, window.dataSdk não existe e causava
+  // "TypeError: Cannot read properties of undefined (reading 'init')".
+  // Se o SDK real estiver presente, ele é usado normalmente; caso
+  // contrário, o progresso é salvo no localStorage do navegador.
+  if (!window.dataSdk) {
+    window.dataSdk = (function() {
+      var STORAGE_KEY = 'bee_game_progress';
+      function readAll() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+        catch (e) { return []; }
+      }
+      function writeAll(arr) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+        catch (e) {}
+      }
+      return {
+        init: async function(opts) {
+          var data = readAll();
+          if (opts && typeof opts.onDataChanged === 'function') opts.onDataChanged(data);
+          return { isOk: true };
+        },
+        create: async function(record) {
+          var data = readAll();
+          data.push(record);
+          writeAll(data);
+          return { isOk: true };
+        }
+      };
+    })();
+  }
 
   const PHASE_STICKERS = ['💐','🐝','🍄','🌺','🐞','🏅'];
   const PHASE_STICKER_LABELS = ['Buquê Mágico','Mel Voando','Cogumelo Encantado','Flor Especial','Joaninha Sorridente','Missão Concluída'];
@@ -61,6 +93,21 @@ function() {
   const savedName = localStorage.getItem('bee_player_name');
   if (savedName) playerName = savedName;
 
+  // ===== FIX: cache de voz pt-BR =====
+  // getVoices() costuma retornar lista vazia na primeira chamada em
+  // alguns navegadores (as vozes carregam de forma assíncrona).
+  // Guardamos a voz assim que estiver disponível, via onvoiceschanged.
+  let ptVoice = null;
+  function loadPtVoice() {
+    var voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+    var v = voices.find(function(x){ return x.lang && x.lang.includes('pt-BR'); });
+    if (v) ptVoice = v;
+  }
+  if (window.speechSynthesis) {
+    loadPtVoice();
+    window.speechSynthesis.onvoiceschanged = loadPtVoice;
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     if (playerName) document.getElementById('player-name-input').value = playerName;
     document.getElementById('btn-start-el').addEventListener('click', startGame);
@@ -85,7 +132,7 @@ function() {
         renderNotebook();
       }
     });
-    if (!result.isOk) { sdkReady = true; }
+    if (!result || !result.isOk) { sdkReady = true; }
   }
 
   function startGame() {
@@ -103,20 +150,15 @@ function() {
   function speakNarration() {
     var el = document.querySelector('[data-template-id="narration-text"]');
     if (!el || !el.textContent) return;
-    var synth = window.speechSynthesis; synth.cancel();
-    var u = new SpeechSynthesisUtterance(el.textContent);
-    u.lang='pt-BR'; u.rate=0.95; u.pitch=1.1;
-    var v = synth.getVoices().find(function(x){return x.lang.includes('pt-BR');});
-    if(v) u.voice=v;
-    synth.speak(u);
+    speakText(el.textContent);
   }
 
   function speakText(text) {
+    if (!window.speechSynthesis) return;
     var synth = window.speechSynthesis; synth.cancel();
     var u = new SpeechSynthesisUtterance(text);
-    u.lang='pt-BR'; u.rate=0.95; u.pitch=1.1;
-    var v = synth.getVoices().find(function(x){return x.lang.includes('pt-BR');});
-    if(v) u.voice=v;
+    u.lang = 'pt-BR'; u.rate = 0.95; u.pitch = 1.1;
+    if (ptVoice) u.voice = ptVoice;
     synth.speak(u);
   }
 
@@ -394,38 +436,41 @@ function() {
   async function runMoves(){if(!pathState||pathState.moves.length===0)return;var pos={r:pathState.beePos.r,c:pathState.beePos.c};for(var i=0;i<pathState.moves.length;i++){var m=pathState.moves[i];if(m==='up')pos.r--;if(m==='down')pos.r++;if(m==='left')pos.c--;if(m==='right')pos.c++;pos.r=Math.max(0,Math.min(pathState.size-1,pos.r));pos.c=Math.max(0,Math.min(pathState.size-1,pos.c));pathState.beePos={r:pos.r,c:pos.c};renderPathGrid();await new Promise(function(resolve){setTimeout(resolve,400);});}if(pos.r===pathState.target.r&&pos.c===pathState.target.c)showFeedback(true);else{showFeedback(false);setTimeout(function(){pathState.beePos={r:0,c:0};pathState.moves=[];document.getElementById('move-display').innerHTML='';renderPathGrid();},1600);}}
 
   // ===== PHASE 3: SUBTRACTION =====
-  function buildSubtraction(v){
+  function buildSubtraction(v, isFirst){
     var configs=[{total:5,remove:2},{total:7,remove:3},{total:9,remove:4}];var cfg=configs[v];
     var c=document.getElementById('game-content');
     c.innerHTML='<div class="bg-white rounded-2xl p-4 shadow-lg text-center"><p class="text-4xl font-bold">'+cfg.total+' 🍄 - '+cfg.remove+' 🍄 = ?</p><p class="text-md text-gray-600">Toque em '+cfg.remove+' cogumelos para tirá-los!</p></div><div id="sub-items" class="flex flex-wrap justify-center gap-4 p-6"></div><p id="sub-counter" class="text-2xl font-bold text-center">Restam: '+cfg.total+'</p>';
+    if(isFirst) setTimeout(function(){speakText('Toque em '+cfg.remove+' cogumelos para tirá-los!');},300);
     var items=document.getElementById('sub-items');var removed=0;
     for(var i=0;i<cfg.total;i++){var btn=document.createElement('button');btn.className='mushroom-item';btn.textContent='🍄';(function(button){button.addEventListener('click',function(){if(button.classList.contains('fade-out'))return;if(removed>=cfg.remove)return;button.classList.add('fade-out');removed++;document.getElementById('sub-counter').textContent='Restam: '+(cfg.total-removed);setTimeout(function(){button.style.visibility='hidden';},400);if(removed===cfg.remove)setTimeout(function(){showFeedback(true);},600);});})(btn);items.appendChild(btn);}
   }
 
   // ===== PHASE 4: COUNTING =====
-  function buildCounting(v){
+  function buildCounting(v, isFirst){
     var counts=[3,6,8];var count=counts[v];var flowers=['🌸','🌺','🌷'];var flower=flowers[v];
     var wrong=[count-1,count+1,count+2].filter(function(x){return x>0;});
     var options=[count].concat(wrong).sort(function(){return Math.random()-0.5;});
     var c=document.getElementById('game-content');
     c.innerHTML='<div class="bg-white rounded-2xl p-4 shadow-lg text-center"><p class="text-lg font-bold">Quantas flores '+flower+' você vê?</p></div><div class="flex flex-wrap justify-center gap-3 p-4">'+Array(count).fill('<span class="text-6xl">'+flower+'</span>').join('')+'</div><div id="count-options" class="flex gap-4 justify-center flex-wrap"></div>';
+    if(isFirst) setTimeout(function(){speakText('Quantas flores você vê? Conte com cuidado!');},300);
     var optC=document.getElementById('count-options');
     options.forEach(function(opt){var btn=document.createElement('button');btn.className='w-20 h-20 rounded-2xl bg-purple-100 text-4xl font-bold shadow-md phase-btn border-2 border-purple-300';btn.textContent=opt;btn.addEventListener('click',function(){if(opt===count)showFeedback(true);else{btn.classList.add('bg-red-200');btn.disabled=true;showFeedback(false);}});optC.appendChild(btn);});
   }
 
   // ===== PHASE 5: ADDITION =====
   var addState=null;
-  function buildAddition(v){
+  function buildAddition(v, isFirst){
     var configs=[{a:2,b:3},{a:4,b:1},{a:3,b:4}];var cfg=configs[v];var answer=cfg.a+cfg.b;
     var c=document.getElementById('game-content');
     c.innerHTML='<div class="bg-white rounded-2xl p-4 shadow-lg text-center"><p class="text-4xl font-bold">'+cfg.a+' 🐞 + '+cfg.b+' 🐞 = ?</p><p class="text-md text-gray-600">Toque para adicionar joaninhas!</p></div><div id="add-area" class="flex flex-wrap justify-center gap-3 p-6 min-h-[150px] bg-white rounded-xl shadow-inner cursor-pointer"></div><p id="add-counter" class="text-2xl font-bold text-center">Joaninhas: 0</p><button class="px-6 py-3 bg-yellow-200 rounded-xl font-bold text-lg" id="btn-check-add">✅ Confirmar</button>';
+    if(isFirst) setTimeout(function(){speakText('Toque na área para adicionar joaninhas até completar a soma!');},300);
     addState={answer:answer,count:0};
     document.getElementById('add-area').addEventListener('click',function(){if(!addState)return;addState.count++;var area=document.getElementById('add-area');var sp=document.createElement('span');sp.className='text-5xl sticker-pop';sp.textContent='🐞';area.appendChild(sp);document.getElementById('add-counter').textContent='Joaninhas: '+addState.count;});
     document.getElementById('btn-check-add').addEventListener('click',function(){if(!addState)return;if(addState.count===addState.answer)showFeedback(true);else{showFeedback(false);setTimeout(function(){addState.count=0;document.getElementById('add-area').innerHTML='';document.getElementById('add-counter').textContent='Joaninhas: 0';},1600);}});
   }
 
   // ===== PHASE 6: PATTERN =====
-  function buildPattern(v){
+  function buildPattern(v, isFirst){
     var patterns=[
       {sequence:['🌸','🐛','🌸','🐛','🌸'],target:['🐛'],choices:['🐛','🌻','🦋']},
       {sequence:['🐞','🦋','🦋','🐞','🦋','🦋','🐞'],target:['🦋','🦋'],choices:['🦋','🌸','🐛']},
@@ -433,10 +478,10 @@ function() {
     ];
     var pat=patterns[v];var c=document.getElementById('game-content');
     c.innerHTML='<div class="bg-white rounded-2xl p-4 shadow-lg text-center"><p class="text-lg font-bold">Complete o padrão!</p></div><div id="pattern-sequence" class="flex flex-wrap justify-center gap-4 p-6 bg-white rounded-xl shadow-inner max-w-sm min-h-[120px]">'+pat.sequence.map(function(e){return '<span class="text-5xl">'+e+'</span>';}).join('')+'<span class="text-5xl text-gray-300 opacity-60">?</span></div><div id="pattern-choices" class="flex gap-4 justify-center flex-wrap mt-6"></div>';
+    if(isFirst) setTimeout(function(){speakText('Descubra qual figura vem a seguir para completar o padrão!');},300);
     var patternState={target:pat.target,completed:[],answered:false};
     var choicesDiv=document.getElementById('pattern-choices');
     pat.choices.forEach(function(emoji){var btn=document.createElement('button');btn.textContent=emoji;btn.className='text-7xl p-6 rounded-2xl bg-purple-100 border-2 border-purple-300 shadow-md phase-btn';btn.addEventListener('click',function(){if(patternState.answered)return;if(patternState.target[patternState.completed.length]===emoji){patternState.completed.push(emoji);btn.classList.add('ring-4','ring-purple-500');if(patternState.completed.length===patternState.target.length){patternState.answered=true;showFeedback(true);}}else{patternState.answered=true;btn.classList.add('bg-red-200');showFeedback(false);}});choicesDiv.appendChild(btn);});
   }
 
 })();
-   
